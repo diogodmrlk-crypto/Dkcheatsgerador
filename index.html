@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ghost Xiters - Login</title>
+
+<style>
+:root{
+  --bg:#0b0b0d;
+  --panel:#121216;
+  --accent:#ef4444;
+  --text:#f8fafc;
+  --muted:#8b8b8b;
+  --mono:ui-monospace,SFMono-Regular,monospace;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at top,#ff000022,transparent),var(--bg);
+  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+  padding:20px;
+  color:var(--text);
+}
+
+/* Painel de Login */
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:#151515;
+  padding:28px;
+  border-radius:20px;
+  box-shadow:0 0 25px #ff000025, inset 0 0 20px #000;
+  border:1px solid #ff000055;
+  animation:fadeUp .6s ease;
+  text-align:center;
+}
+
+.login-box h1{
+  margin-top:0;
+  font-size:26px;
+  color:#ff2d2d;
+  text-shadow:0 0 8px #ff000099;
+}
+
+.login-box input{
+  width:100%;
+  padding:12px;
+  margin-top:12px;
+  border-radius:10px;
+  border:1px solid #2c2c2c;
+  background:#0e0e0e;
+  color:#fff;
+  outline:none;
+  transition:.25s;
+}
+
+.login-box input:focus{
+  border-color:#ff2d2d;
+  box-shadow:0 0 8px #ff000055;
+}
+
+.login-btn{
+  width:100%;
+  padding:12px;
+  margin-top:16px;
+  border:none;
+  border-radius:10px;
+  background:#ff2d2d;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 0 10px #ff000055;
+}
+
+.login-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #ff0000aa;
+}
+
+/* Ocultar painel após login */
+#painel{
+  display:none;
+}
+
+/* Painel principal (gerador) */
+.panel{
+  width:100%;
+  max-width:520px;
+  background:#151515;
+  padding:28px;
+  border-radius:20px;
+  box-shadow:0 0 25px #ff000025, inset 0 0 20px #000;
+  border:1px solid #ff000055;
+  margin-top:20px;
+  animation:fadeUp 0.6s ease;
+}
+
+h2{
+  text-align:center;
+  color:#ff2d2d;
+  text-shadow:0 0 8px #ff000099;
+}
+
+label{
+  display:block;
+  margin:10px 0 4px;
+  font-size:14px;
+  color:#bcbcbc;
+}
+
+input[type="text"], input[type="number"]{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #2c2c2c;
+  background:#0e0e0e;
+  color:#fff;
+  outline:none;
+  transition:.25s;
+}
+
+input:focus{
+  border-color:#ff2d2d;
+  box-shadow:0 0 8px #ff000055;
+}
+
+.btn{
+  flex:1;
+  padding:12px;
+  margin-top:14px;
+  border:none;
+  border-radius:10px;
+  background:#ff2d2d;
+  color:#fff;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 0 10px #ff000055;
+  transition:.25s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 14px #ff0000aa;
+}
+
+.btn.sec{
+  background:#0d0d0e;
+  border:1px solid #2b2b2b;
+  color:#fff;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+}
+
+.keys-box{
+  margin-top:18px;
+  background:#0d0d0f;
+  border:1px solid #242424;
+  padding:14px;
+  border-radius:10px;
+  max-height:220px;
+  overflow:auto;
+  font-family:var(--mono);
+  font-size:14px;
+  color:#ff4f4f;
+  white-space:pre-wrap;
+}
+
+.log{
+  margin-top:12px;
+  font-size:13px;
+  color:#d1d1d1;
+  background:#0d0d0f;
+  border-radius:10px;
+  padding:10px;
+  border:1px solid #1f1f1f;
+  max-height:160px;
+  overflow:auto;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-box" id="loginBox">
+  <h1>Ghost Xiters - Login</h1>
+  <input type="password" id="senha" placeholder="Digite a senha">
+  <button class="login-btn" id="loginBtn">Entrar</button>
+</div>
+
+<!-- PAINEL PRINCIPAL (GERADOR) -->
+<div id="painel">
+
+  <div class="panel">
+    <h2>Gerador de Keys</h2>
+
+    <label>Prefixo</label>
+    <input type="text" id="prefix" placeholder="ex: ghost-xiters-">
+
+    <label>Dia</label>
+    <input type="text" id="dia" placeholder="ex: 10">
+
+    <label>Quantidade</label>
+    <input type="number" id="quantidade" value="5">
+
+    <label>Tamanho</label>
+    <input type="number" id="tamanho" value="12">
+
+    <div style="display:flex;gap:10px;margin-top:10px;">
+      <label><input type="checkbox" id="sendMockapi" checked> MockAPI</label>
+      <label><input type="checkbox" id="sendWebhook"> Webhook</label>
+    </div>
+
+    <label>MockAPI URL</label>
+    <input type="text" id="mockapiUrl">
+
+    <label>Webhook URL</label>
+    <input type="text" id="webhookUrl">
+
+    <div class="actions">
+      <button class="btn" id="btnGerar">Gerar</button>
+      <button class="btn sec" id="btnCopiar">Copiar</button>
+      <button class="btn sec" id="btnDownload">Download</button>
+    </div>
+
+    <div class="keys-box" id="keysBox">As keys aparecerão aqui...</div>
+    <div class="log" id="log">Logs aparecerão aqui...</div>
+
+  </div>
+
+</div>
+
+<script>
+// =================================
+// SISTEMA DE LOGIN
+// =================================
+
+// Senha padrão (MUDE AQUI)
+const SENHA_CORRETA = "ghostx";
+
+document.getElementById("loginBtn").addEventListener("click", () => {
+  const input = document.getElementById("senha").value;
+
+  if(input === SENHA_CORRETA){
+    // Mostrar painel
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("painel").style.display = "block";
+  } else {
+    alert("Senha incorreta!");
+  }
+});
+
+
+// =================================
+// GERADOR DE KEYS
+// =================================
+(() => {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  const btnGerar = document.getElementById("btnGerar");
+  const keysBox = document.getElementById("keysBox");
+  const logEl = document.getElementById("log");
+  const btnCopiar = document.getElementById("btnCopiar");
+  const btnDownload = document.getElementById("btnDownload");
+
+  function gerarKey(tamanho, prefixo, dia){
+    let key = "";
+    for(let i=0;i<tamanho;i++){
+      key += chars[Math.floor(Math.random()*chars.length)];
+    }
+    return `${prefixo}${dia}${key}`;
+  }
+
+  function log(msg){
+    logEl.textContent += msg + "\n";
+  }
+
+  async function enviarMock(url, obj){
+    try{
+      const res = await fetch(url,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(obj)
+      });
+      log(`MockAPI ➜ ${res.status}`);
+    }catch(e){
+      log("Erro MockAPI: "+e);
+    }
+  }
+
+  async function enviarWebhook(url, lista){
+    try{
+      const res = await fetch(url,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({content:"🔑 **Novas Keys:**\n"+lista.join("\n")})
+      });
+      log(`Webhook ➜ ${res.status}`);
+    }catch(e){
+      log("Erro Webhook: "+e);
+    }
+  }
+
+  btnGerar.addEventListener("click", async ()=>{
+    logEl.textContent = "";
+
+    const prefix = document.getElementById("prefix").value.trim();
+    const dia = document.getElementById("dia").value.trim();
+    const qtd = Number(document.getElementById("quantidade").value);
+    const size = Number(document.getElementById("tamanho").value);
+
+    const mockURL = document.getElementById("mockapiUrl").value.trim();
+    const hookURL = document.getElementById("webhookUrl").value.trim();
+
+    const sendMock = document.getElementById("sendMockapi").checked;
+    const sendHook = document.getElementById("sendWebhook").checked;
+
+    if(!prefix || !dia){
+      alert("Preencha prefixo e dia!");
+      return;
+    }
+
+    const lista = [];
+    for(let i=0;i<qtd;i++){
+      lista.push(gerarKey(size, prefix, dia));
+    }
+
+    keysBox.textContent = lista.join("\n");
+    log("Geradas: " + lista.length);
+
+    if(sendMock && mockURL){
+      for(const k of lista){
+        await enviarMock(mockURL, {
+          key:k,
+          status:"active",
+          createdAt:new Date().toISOString(),
+          dia:dia
+        });
+      }
+    }
+
+    if(sendHook && hookURL){
+      await enviarWebhook(hookURL, lista);
+    }
+
+    log("✔ Finalizado.");
+  });
+
+  btnCopiar.addEventListener("click", async ()=>{
+    const t = keysBox.textContent;
+    await navigator.clipboard.writeText(t);
+    alert("Copiado!");
+  });
+
+  btnDownload.addEventListener("click", ()=>{
+    const text = keysBox.textContent;
+    const blob = new Blob([text],{type:"text/plain"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href=url;
+    a.download="keys.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+})();
+</script>
+
+</body>
+</html>
